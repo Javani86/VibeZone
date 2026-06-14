@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibeZone</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">
+      <span class="v">Vibe</span><span class="z">Zone</span>
+    </a>
+
+    <button id="hamburger" aria-label="منو" aria-expanded="false">☰</button>
+
+    <ul id="nav-menu">
+      <li><a href="index.html" data-i18n="nav_home">خانه</a></li>
+      <li><a href="game.html"  data-i18n="nav_game">بازی</a></li>
+      <li class="nav-controls">
+        <button id="lang-toggle"  aria-label="تغییر زبان">EN</button>
+        <button id="theme-toggle" aria-label="تم تاریک">🌙</button>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="hero fade-in">
+    <div class="hero-badge" data-i18n="hero_badge">🎉 خوش اومدی!</div>
+    <h1>
+      <span data-i18n="hero_title_pre">به </span><span class="v">Vibe</span><span class="z">Zone</span><span data-i18n="hero_title_post"> خوش اومدی</span>
+    </h1>
+    <p data-i18n="hero_sub">سرگرمی، بازی و کشف — همه یه جا.</p>
+  </section>
+
+  <div class="cards cards--single">
+    <div class="card fade-in">
+      <div class="card-icon teal">🎮</div>
+      <h2 data-i18n="card2_title">بازی آنلاین</h2>
+      <p data-i18n="card2_desc">با دوستات بازی کن! حدس بزن، امتیاز بگیر و ببین کی بیشتر می‌دونه.</p>
+      <a class="card-btn teal" href="game.html" data-i18n="card2_btn">ورود به بازی ←</a>
+    </div>
+  </div>
+
+  <div class="stats-wrapper">
+    <div class="stats fade-in">
+      <div class="stat">
+        <div class="stat-num counter" data-target="50" data-locale="fa-IR">۰</div>
+        <div class="stat-label" data-i18n="stat2_label">سوال بازی</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-i18n="stat3_num">رایگان</div>
+        <div class="stat-label" data-i18n="stat3_label">کاملاً رایگان</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span data-i18n="footer">© ۲۰۲۵ VibeZone — ساخته شده با ❤</span>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
