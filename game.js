@@ -332,8 +332,7 @@ document.getElementById('btn-skip').addEventListener('click', async () => {
 
 // ─── رای قبول ────────────────────────────────────────────────
 document.getElementById('btn-vote-yes').addEventListener('click', async () => {
-  const { data: room } = await db.from('rooms').select('current_card').eq('id', roomCode).single();
-  // امتیاز به کسی که جواب داد
+  const { data: room } = await db.from('rooms').select('*').eq('id', roomCode).single();
   const { data: players } = await db.from('players').select('*').eq('room_id', roomCode).order('joined_at');
   const idx = room.current_player_index % players.length;
   const curPlayer = players[idx];
@@ -344,7 +343,7 @@ document.getElementById('btn-vote-yes').addEventListener('click', async () => {
 
 // ─── رای رد ──────────────────────────────────────────────────
 document.getElementById('btn-vote-no').addEventListener('click', async () => {
-  const { data: room } = await db.from('rooms').select('current_card').eq('id', roomCode).single();
+  const { data: room } = await db.from('rooms').select('*').eq('id', roomCode).single();
   await db.from('rooms').update({ current_card: { ...room.current_card, vote_done: true } }).eq('id', roomCode);
 });
 
