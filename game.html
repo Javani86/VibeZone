@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibeZone — حقیقت یا جرأت</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="game.css" />
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="index.html"><span class="v">Vibe</span><span class="z">Zone</span></a>
+    <button id="hamburger" aria-label="منو" aria-expanded="false">☰</button>
+    <ul id="nav-menu">
+      <li><a href="index.html" data-i18n="nav_home">خانه</a></li>
+      <li><a href="game.html"  data-i18n="nav_game">بازی</a></li>
+      <li class="nav-controls">
+        <button id="lang-toggle" aria-label="تغییر زبان">EN</button>
+        <button id="theme-toggle" aria-label="تم تاریک">🌙</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- لابی -->
+  <div id="screen-lobby" class="screen active">
+    <div class="game-container">
+      <div class="game-header">
+        <div class="game-icon">🎭</div>
+        <h1 data-i18n="game_title">حقیقت یا جرأت</h1>
+        <p data-i18n="game_sub">با دوستات از راه دور بازی کن</p>
+      </div>
+      <div class="lobby-cards">
+        <div class="lobby-card">
+          <h2 data-i18n="create_room">ساخت اتاق جدید</h2>
+          <p data-i18n="create_room_desc">یه اتاق بساز و کد رو به دوستات بده</p>
+          <input id="host-name" type="text" maxlength="16" placeholder="اسمت رو بنویس..." />
+          <button id="btn-create" class="btn btn-purple" data-i18n="btn_create">ساخت اتاق ←</button>
+        </div>
+        <div class="lobby-divider" data-i18n="or">یا</div>
+        <div class="lobby-card">
+          <h2 data-i18n="join_room">ورود به اتاق</h2>
+          <p data-i18n="join_room_desc">کد اتاق رو از دوستت بگیر</p>
+          <input id="join-name" type="text" maxlength="16" placeholder="اسمت رو بنویس..." />
+          <input id="join-code" type="text" maxlength="6" placeholder="کد اتاق..." style="text-transform:uppercase;letter-spacing:4px;text-align:center" />
+          <button id="btn-join" class="btn btn-teal" data-i18n="btn_join">ورود به اتاق ←</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- انتظار -->
+  <div id="screen-waiting" class="screen">
+    <div class="game-container">
+      <div class="game-header">
+        <div class="game-icon">⏳</div>
+        <h2 data-i18n="waiting_title">منتظر بازیکن‌ها...</h2>
+        <div class="room-code-box">
+          <span data-i18n="room_code_label">کد اتاق:</span>
+          <strong id="display-code">----</strong>
+          <button id="btn-copy" class="btn-icon">📋</button>
+        </div>
+      </div>
+      <div id="players-list" class="players-list"></div>
+      <button id="btn-start" class="btn btn-purple" style="display:none" data-i18n="btn_start">شروع بازی ▶</button>
+      <p class="hint" data-i18n="waiting_hint">وقتی همه آماده شدن، هاست بازی رو شروع می‌کنه</p>
+    </div>
+  </div>
+
+  <!-- بازی -->
+  <div id="screen-game" class="screen">
+    <div class="game-layout">
+
+      <!-- ستون اصلی -->
+      <div class="game-main">
+        <div class="game-top-bar">
+          <div class="turn-info">
+            <span data-i18n="turn_label">نوبت:</span>
+            <strong id="current-player-name">---</strong>
+          </div>
+          <div class="round-info">
+            <span data-i18n="round_label">دور</span>
+            <strong id="round-num">1</strong>
+          </div>
+        </div>
+
+        <!-- تایمر -->
+        <div class="timer-wrap">
+          <div class="timer-bar-bg">
+            <div id="timer-bar" class="timer-bar"></div>
+          </div>
+          <span id="timer-text" class="timer-text">--</span>
+        </div>
+
+        <!-- انتخاب -->
+        <div id="choice-screen">
+          <p id="choice-prompt" class="choice-prompt"></p>
+          <div class="choice-btns">
+            <button id="btn-truth" class="btn btn-truth" data-i18n="btn_truth">🤔 حقیقت</button>
+            <button id="btn-dare"  class="btn btn-dare"  data-i18n="btn_dare">😈 جرأت</button>
+          </div>
+          <p class="hint" data-i18n="choice_hint">فقط بازیکن نوبتی می‌تونه انتخاب کنه</p>
+        </div>
+
+        <!-- کارت -->
+        <div id="card-screen" style="display:none">
+          <div id="game-card" class="game-card">
+            <div id="card-type-badge" class="card-badge"></div>
+            <p id="card-text" class="card-text"></p>
+          </div>
+
+          <p id="answer-status" class="answer-status waiting">⏳ منتظر جواب...</p>
+
+          <!-- دکمه‌های بازیکن نوبتی -->
+          <div id="card-actions" class="card-actions" style="display:none">
+            <button id="btn-done" class="btn btn-done">✅ انجام دادم</button>
+            <button id="btn-skip" class="btn btn-skip">⏭️ رد کردن (-۱)</button>
+          </div>
+
+          <!-- رای هاست -->
+          <div id="vote-actions" class="vote-actions" style="display:none">
+            <p class="vote-label">آیا واقعاً انجام داد؟</p>
+            <div style="display:flex;gap:10px">
+              <button id="btn-vote-yes" class="btn btn-vote-yes">👍 بله (+۳)</button>
+              <button id="btn-vote-no"  class="btn btn-vote-no">👎 خیر</button>
+            </div>
+          </div>
+
+          <button id="btn-next" class="btn btn-purple" style="display:none" data-i18n="btn_next">نفر بعدی ←</button>
+        </div>
+
+        <!-- امتیازات -->
+        <div class="scoreboard-wrap">
+          <h3 class="scoreboard-title">🏆 امتیازات</h3>
+          <div id="scoreboard" class="scoreboard"></div>
+        </div>
+      </div>
+
+      <!-- چت -->
+      <div class="chat-panel">
+        <div class="chat-header">💬 چت گروهی</div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input-wrap">
+          <input id="chat-input" type="text" placeholder="پیام بنویس..." maxlength="200" />
+          <button id="chat-send" class="btn-send">➤</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- پایان -->
+  <div id="screen-end" class="screen">
+    <div class="game-container">
+      <div class="game-header">
+        <div class="game-icon">🏆</div>
+        <h2 data-i18n="end_title">بازی تموم شد!</h2>
+        <p class="winner-text">برنده: <strong id="winner-name">---</strong> با <strong id="winner-score">---</strong></p>
+      </div>
+      <div id="final-scores" class="scoreboard"></div>
+      <button id="btn-restart" class="btn btn-purple" style="margin-top:1.5rem" data-i18n="btn_restart">بازی جدید 🔄</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="i18n.js"></script>
+  <script src="script.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
